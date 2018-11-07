@@ -7,20 +7,20 @@ var Stack = function() {
 };
 
 var stackMethods = {
-  push : function(value) {
+  push: function(value) {
     this[this.counter] = value;
     this.counter++;
     return this.counter;
   },
 
-  pop : function() {
+  pop: function() {
     if (this.counter !== 0) {
       this.counter--;
       return this[this.counter];
     }
   },
 
-  size : function() {
+  size: function() {
     return this.counter;
   }
 };
