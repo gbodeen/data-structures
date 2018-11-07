@@ -16,14 +16,13 @@ var stackMethods = {
   pop : function() {
     if (this.counter !== 0) {
       this.counter--;
+      return this[this.counter];
     }
-    return this[this.counter];
   },
 
   size : function() {
     return this.counter;
   }
-
 };
 
 
