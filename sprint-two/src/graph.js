@@ -43,11 +43,10 @@ Graph.prototype.removeEdge = function (fromNode, toNode) {
 
 // Pass in a callback which will be executed on each node of the graph.
 Graph.prototype.forEachNode = function (cb) {
-};
-/*
-var GraphNode = function (value) {
-    this.value = value;
-    this.edges = [];
+  var keys = Object.keys(this.nodes);
+  for (var k = 0; k < keys.length; k++) {
+    cb(keys[k]);
+  }
 };
 /*
  * Complexity: What is the time complexity of the above functions?
