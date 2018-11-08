@@ -37,3 +37,4 @@ node_modules
 .floobit
 .floo
 .flooignore
+.vscode/settings.json
