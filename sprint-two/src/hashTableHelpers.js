@@ -11,25 +11,49 @@
 //   limitedArray.set(3, 'hi');
 //   limitedArray.get(3); // returns 'hi'
 
-var LimitedArray = function(limit) {
+var LimitedArray = function (limit) {
   var storage = [];
 
   var limitedArray = {};
-  limitedArray.get = function(index) {
+  limitedArray.get = function (index, key) {
     checkLimit(index);
-    return storage[index];
+    for (let i = 0; i < storage[index].length; i++) {
+      if (storage[index][i][0] === key) {
+        return storage[index][i][1];
+      }
+    }
   };
-  limitedArray.set = function(index, value) {
+  limitedArray.set = function (index, value, key) {
     checkLimit(index);
-    storage[index] = value;
+    if (storage[index] === undefined) {
+      storage[index] = [];
+    }
+    let tracker = false;
+    for (let i = 0; i < storage[index].length; i++) {
+      if (storage[index][i][0] === key) {
+        storage[index][i][1] = value;
+        tracker == true;
+      }
+    }
+    if (!tracker) {
+      storage[index].push([key, value]);
+    }
   };
-  limitedArray.each = function(callback) {
-    for (var i = 0; i < storage.length; i++) {
+  limitedArray.each = function (callback) {
+    for (let i = 0; i < storage.length; i++) {
       callback(storage[i], i, storage);
     }
   };
+  limitedArray.delete = function (index, key) {
+    //storage.splice(index, 1);
+    for (let i = 0; storage[index].length; i++) {
+      if (storage[index][i][0] === key) {
+        storage[index].splice(i, 1);
+      }
+    }
+  }
 
-  var checkLimit = function(index) {
+  var checkLimit = function (index) {
     if (typeof index !== 'number') {
       throw new Error('setter requires a numeric index for its first argument');
     }
@@ -44,7 +68,7 @@ var LimitedArray = function(limit) {
 // This is a "hashing function". You don't need to worry about it, just use it
 // to turn any string into an integer that is well-distributed between the
 // numbers 0 and `max`
-var getIndexBelowMaxForKey = function(str, max) {
+var getIndexBelowMaxForKey = function (str, max) {
   var hash = 0;
   for (var i = 0; i < str.length; i++) {
     hash = (hash << 5) + hash + str.charCodeAt(i);
