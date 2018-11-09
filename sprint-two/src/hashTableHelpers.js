@@ -32,7 +32,7 @@ var LimitedArray = function (limit) {
     for (let i = 0; i < storage[index].length; i++) {
       if (storage[index][i][0] === key) {
         storage[index][i][1] = value;
-        tracker == true;
+        tracker = true;
       }
     }
     if (!tracker) {
@@ -51,7 +51,7 @@ var LimitedArray = function (limit) {
         storage[index].splice(i, 1);
       }
     }
-  }
+  };
 
   var checkLimit = function (index) {
     if (typeof index !== 'number') {
