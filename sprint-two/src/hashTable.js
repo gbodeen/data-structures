@@ -23,6 +23,21 @@ HashTable.prototype.remove = function (k) {
   this._tupleCount--;
 };
 
+HashTable.prototype.doubleSize = function () {
+  // Make a new storage object of LimitedArray
+  // with double the limit
+};
+
+HashTable.prototype.halveSize = function () {
+  // Make a new storage object of LimitedArray
+  // with half the limit
+};
+
+HashTable.prototype.transferTuples = function () {
+  // retrieve every tuple from origin array
+  // insert them into the destination array
+};
+
 
 
 /*
