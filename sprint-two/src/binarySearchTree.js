@@ -48,11 +48,16 @@ BSTMethods.contains = function (value) {
   return false;
 };
 
-BSTMethods.depthFirstLog = function (cb) {
+BSTMethods.depthFirstLog = function (cb, sortOrder = false) {
+  if (!sortOrder) {
+    cb(this.value);
+  }
   if (this.left) {
     this.left.depthFirstLog(cb);
   }
-  cb(this.value);
+  if (sortOrder) {
+    cb(this.value);
+  }
   if (this.right) {
     this.right.depthFirstLog(cb);
   }
@@ -65,9 +70,14 @@ BSTMethods.updateDepth = function () {
 
   if (Math.abs(leftDepth - rightDepth) >= 2) {
     this.rebalance();
+    // we're on the wrong node now; still 18 instead of 17
+    // the rebalancing properly connected 17 to 19
+    // we need to do something else here, so that we don't re-set 18 as the left child of 19
+    leftDepth = (this.left) ? this.left.depth : -1;
+    rightDepth = (this.right) ? this.right.depth : -1;
   }
 
-  this.depth = (leftDepth > rightDepth) ? leftDepth + 1 : rightDepth + 1;
+  this.depth = Math.max(leftDepth, rightDepth) + 1;
   if (this.parent) {
     this.parent.updateDepth();
   }
@@ -79,11 +89,46 @@ BSTMethods.rebalance = function () {
   var createNodeList = function (value) {
     orderedNodes.push(value);
   };
-  this.depthFirstLog(createNodeList);
+  this.depthFirstLog(createNodeList, true);
   //console.log(this.value, orderedNodes);
 
   //reconstitute section of tree and connect to larger tree in place of old section 
+  var balancedTreeSeg;
+  var createBalancedTree = function (arraySegment) {
+    if (arraySegment.length) {
+
+      var index = Math.floor(arraySegment.length / 2);
+
+      if (!balancedTreeSeg) {
+        balancedTreeSeg = BinarySearchTree(arraySegment[index]);
+      } else {
+        balancedTreeSeg.insert(arraySegment[index]);
+      }
+
+      createBalancedTree(arraySegment.slice(0, index));
+      createBalancedTree(arraySegment.slice(index + 1));
+    }
+  };
+
+  createBalancedTree(orderedNodes);
+
+  // if (this.parent) {
+  //   balancedTreeSeg.parent = this.parent;
+  //   if (balancedTreeSeg.value > this.parent.value) {
+  //     this.parent.right = balancedTreeSeg;
+  //   } else {
+  //     this.parent.left = balancedTreeSeg;
+  //   }
+  // } else { //when we are rebalancing up to the root Node
+  this.value = balancedTreeSeg.value;
+  this.depth = balancedTreeSeg.depth;
+  this.left = balancedTreeSeg.left;
+  this.right = balancedTreeSeg.right;
+  this.left.parent = this;
+  this.right.parent = this;
+
 };
+
 /*
  * Complexity: What is the time complexity of the above functions?
  */
@@ -97,5 +142,5 @@ foo.insert(35);
 foo.insert(17.5);
 foo.insert(45);
 foo.insert(44.99);
-console.log(foo.depth);
+// console.log(foo);
 

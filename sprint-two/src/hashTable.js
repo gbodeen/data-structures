@@ -49,13 +49,13 @@ HashTable.prototype.changeSize = function (multiplier) {
 
 
 
-var foo = new HashTable();
-foo.insert('a', 'alpha');
-foo.insert('b', 'bravo');
-foo.insert('c', 'charlie');
-foo.insert('d', 'delta');
-foo.insert('e', 'echo');
-foo.insert('f', 'foxtrot');
-console.log(foo);
-foo.insert('g', 'golf');
-console.log(foo);
+// var foo = new HashTable();
+// foo.insert('a', 'alpha');
+// foo.insert('b', 'bravo');
+// foo.insert('c', 'charlie');
+// foo.insert('d', 'delta');
+// foo.insert('e', 'echo');
+// foo.insert('f', 'foxtrot');
+// console.log(foo);
+// foo.insert('g', 'golf');
+// console.log(foo);
