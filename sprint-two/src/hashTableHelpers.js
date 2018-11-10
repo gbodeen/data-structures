@@ -17,9 +17,11 @@ var LimitedArray = function (limit) {
   var limitedArray = {};
   limitedArray.get = function (index, key) {
     checkLimit(index);
-    for (let i = 0; i < storage[index].length; i++) {
-      if (storage[index][i][0] === key) {
-        return storage[index][i][1];
+    if (storage[index] !== undefined) {
+      for (let i = 0; i < storage[index].length; i++) {
+        if (storage[index][i][0] === key) {
+          return storage[index][i][1];
+        }
       }
     }
   };
@@ -41,7 +43,11 @@ var LimitedArray = function (limit) {
   };
   limitedArray.each = function (callback) {
     for (let i = 0; i < storage.length; i++) {
-      callback(storage[i], i, storage);
+      if (storage[i] !== undefined) {
+        for (let j = 0; j < storage[i].length; j++) {
+          callback(storage[i][j], i, storage);
+        }
+      }
     }
   };
   limitedArray.delete = function (index, key) {

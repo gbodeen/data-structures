@@ -11,7 +11,7 @@ HashTable.prototype.insert = function (k, v) {
   this._storage.set(index, v, k);
   this._tupleCount++;
   if (this._tupleCount > 0.75 * this._limit) {
-    this.doubleSize();
+    this.changeSize(2);
   }
 };
 
@@ -25,39 +25,23 @@ HashTable.prototype.remove = function (k) {
   this._storage.delete(index, k);
   this._tupleCount--;
   if (this._tupleCount < 0.25 * this._limit) {
-    // halveSize
+    this.changeSize(0.5);
   }
 };
 
-HashTable.prototype.doubleSize = function () {
-  // Make a new storage object of LimitedArray
-  // with double the limit
-  this._limit *= 2;
+HashTable.prototype.changeSize = function (multiplier) {
+
+  this._limit *= multiplier;
   var newHashTable = new HashTable(this._limit);
-  // var newStorage = LimitedArray(2 * this._limit);
-  // run .each on old storage with callback to .insert it into new storage
+
   this._storage.each(function (tuple) {
-    // this.insert.call(newStorage, key, elem);
+
     if (tuple !== undefined) {
-      newHashTable.insert(tuple[0][0], tuple[0][1]);
+      newHashTable.insert(tuple[0], tuple[1]);
     }
   });
-  // then reassign storage names & delete old storage
-  // this._storage = newStorage;
   this._storage = newHashTable._storage;
 };
-
-HashTable.prototype.halveSize = function () {
-  // Make a new storage object of LimitedArray
-  // with half the limit
-};
-
-HashTable.prototype.transferTuples = function () {
-  // retrieve every tuple from origin array
-  // insert them into the destination array
-};
-
-
 
 /*
  * Complexity: What is the time complexity of the above functions?
