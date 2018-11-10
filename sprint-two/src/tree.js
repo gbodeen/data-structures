@@ -26,6 +26,14 @@ treeMethods.contains = function(target, found = false) {
   return found;
 };
 
+treeMethods.bfsearch = function(target, levels = [[this],[]]) { // Breadth-First Search
+  for (node of levels[0]) {
+    if (node.value === target) return true;
+    levels[1].push(...node.children);
+  }
+  
+}
+
 
 
 /*
